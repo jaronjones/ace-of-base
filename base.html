@@ -1,0 +1,218 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en" data-theme="tropical-dark" id="html-root">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{.Config.Title}} 🌴</title>
+
+	<!-- Tailwind CSS CDN -->
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<!-- DaisyUI CDN -->
+	<link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+
+	<!-- HTMX -->
+	<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+	<!-- Custom tropical theme + fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+
+	<style>
+		/* ===================================================
+		   TROPICAL DARK — Miami Vice meets Honolulu, 1985
+		   =================================================== */
+		[data-theme="tropical-dark"] {
+			--p: 322 100% 63%;        /* hot pink */
+			--pf: 322 100% 53%;
+			--pc: 0 0% 10%;
+			--s: 178 100% 48%;        /* neon cyan/teal */
+			--sf: 178 100% 38%;
+			--sc: 0 0% 10%;
+			--a: 44 100% 55%;         /* golden amber */
+			--af: 44 100% 45%;
+			--ac: 0 0% 10%;
+			--n: 240 30% 15%;
+			--nf: 240 30% 10%;
+			--nc: 0 0% 90%;
+			--b1: 235 45% 7%;         /* deep navy */
+			--b2: 235 40% 10%;
+			--b3: 235 35% 14%;
+			--bc: 220 20% 88%;
+
+			--rounded-box: 0.75rem;
+			--rounded-btn: 0.5rem;
+			--rounded-badge: 1rem;
+			--animation-btn: 0.15s;
+			--btn-text-case: none;
+			--border-btn: 1px;
+
+			color-scheme: dark;
+		}
+
+		/* ===================================================
+		   TROPICAL LIGHT — Pastel paradise, daytime vibes
+		   =================================================== */
+		[data-theme="tropical-light"] {
+			--p: 322 85% 52%;
+			--pf: 322 85% 42%;
+			--pc: 0 0% 100%;
+			--s: 178 75% 38%;
+			--sf: 178 75% 28%;
+			--sc: 0 0% 100%;
+			--a: 44 95% 48%;
+			--af: 44 95% 38%;
+			--ac: 0 0% 10%;
+			--n: 240 20% 92%;
+			--nf: 240 20% 82%;
+			--nc: 235 40% 20%;
+			--b1: 48 60% 96%;         /* warm sand */
+			--b2: 48 40% 90%;
+			--b3: 48 30% 84%;
+			--bc: 235 40% 20%;
+
+			--rounded-box: 0.75rem;
+			--rounded-btn: 0.5rem;
+			--rounded-badge: 1rem;
+			--animation-btn: 0.15s;
+			--btn-text-case: none;
+
+			color-scheme: light;
+		}
+
+		/* Typography */
+		body { font-family: 'Exo 2', sans-serif; }
+		.font-display { font-family: 'Orbitron', sans-serif; }
+
+		/* Grid background — subtle scanline effect */
+		[data-theme="tropical-dark"] body {
+			background-image:
+				linear-gradient(0deg, transparent 24%, rgba(0,255,220,0.02) 25%, rgba(0,255,220,0.02) 26%, transparent 27%),
+				linear-gradient(90deg, transparent 24%, rgba(0,255,220,0.02) 25%, rgba(0,255,220,0.02) 26%, transparent 27%);
+			background-size: 48px 48px;
+		}
+
+		/* Neon glow on primary elements (dark mode only) */
+		[data-theme="tropical-dark"] .widget-card {
+			box-shadow:
+				0 0 0 1px hsl(var(--b3)),
+				0 4px 24px rgba(0,0,0,0.4);
+			transition: box-shadow 0.2s ease;
+		}
+		[data-theme="tropical-dark"] .widget-card:hover {
+			box-shadow:
+				0 0 0 1px hsl(var(--s) / 0.4),
+				0 4px 32px rgba(0,255,220,0.08),
+				0 0 24px rgba(0,255,220,0.04);
+		}
+
+		[data-theme="tropical-light"] .widget-card {
+			box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 0 0 1px hsl(var(--b3));
+		}
+
+		/* Scrollbar */
+		::-webkit-scrollbar { width: 4px; height: 4px; }
+		::-webkit-scrollbar-track { background: transparent; }
+		::-webkit-scrollbar-thumb { background: hsl(var(--p) / 0.4); border-radius: 4px; }
+
+		/* HTMX loading indicator */
+		.htmx-indicator { opacity: 0; transition: opacity 0.2s; }
+		.htmx-request .htmx-indicator { opacity: 1; }
+
+		/* Widget loading skeleton */
+		.widget-loading {
+			background: linear-gradient(90deg, hsl(var(--b2)) 25%, hsl(var(--b3)) 50%, hsl(var(--b2)) 75%);
+			background-size: 200% 100%;
+			animation: shimmer 1.5s infinite;
+		}
+		@keyframes shimmer {
+			0% { background-position: 200% 0; }
+			100% { background-position: -200% 0; }
+		}
+
+		/* Header gradient */
+		.header-gradient {
+			background: linear-gradient(135deg,
+				hsl(var(--b2)) 0%,
+				hsl(var(--b1)) 100%
+			);
+			border-bottom: 1px solid hsl(var(--b3));
+		}
+		[data-theme="tropical-dark"] .header-gradient {
+			background: linear-gradient(135deg,
+				hsl(235 45% 10%) 0%,
+				hsl(235 45% 7%) 100%
+			);
+		}
+	</style>
+</head>
+
+<body class="min-h-screen bg-base-100 text-base-content">
+
+	<!-- Header -->
+	<header class="header-gradient sticky top-0 z-50 px-6 py-3">
+		<div class="flex items-center justify-between max-w-screen-2xl mx-auto">
+			<div class="flex items-center gap-3">
+				<span class="text-2xl">🌴</span>
+				<span class="font-display font-bold text-lg tracking-widest text-primary">
+					{{.Config.Title}}
+				</span>
+			</div>
+
+			<div class="flex items-center gap-3">
+				<!-- Theme toggle -->
+				<button
+					id="theme-toggle-btn"
+					class="btn btn-ghost btn-sm gap-2"
+					onclick="toggleTheme()"
+					title="Toggle theme">
+					<span id="theme-icon">🌙</span>
+					<span class="text-xs font-display tracking-wider hidden sm:inline" id="theme-label">DARK</span>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<!-- Main content -->
+	<main class="p-4 sm:p-6 max-w-screen-2xl mx-auto">
+		{{block "content" .}}{{end}}
+	</main>
+
+	<!-- Footer -->
+	<footer class="text-center py-4 text-base-content/20 text-xs font-display tracking-widest">
+		ISLANDTIME · RUNNING ON {{.Config.Port}}
+	</footer>
+
+	<script>
+		// Theme persistence
+		(function() {
+			const saved = localStorage.getItem('islandtime-theme') || 'tropical-dark';
+			document.getElementById('html-root').setAttribute('data-theme', saved);
+			updateThemeUI(saved);
+		})();
+
+		function toggleTheme() {
+			const root = document.getElementById('html-root');
+			const current = root.getAttribute('data-theme');
+			const next = current === 'tropical-dark' ? 'tropical-light' : 'tropical-dark';
+			root.setAttribute('data-theme', next);
+			localStorage.setItem('islandtime-theme', next);
+			updateThemeUI(next);
+		}
+
+		function updateThemeUI(theme) {
+			const icon = document.getElementById('theme-icon');
+			const label = document.getElementById('theme-label');
+			if (theme === 'tropical-dark') {
+				icon.textContent = '🌙';
+				if (label) label.textContent = 'DARK';
+			} else {
+				icon.textContent = '☀️';
+				if (label) label.textContent = 'LIGHT';
+			}
+		}
+	</script>
+</body>
+</html>
+{{end}}
