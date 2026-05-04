@@ -64,6 +64,7 @@ root is read automatically when running in dev mode (real env vars always win).
 | `WEATHER_DEFAULT_LAT`   | `35.6762`   | Fallback latitude on first visit (Tokyo) |
 | `WEATHER_DEFAULT_LON`   | `139.6503`  | Fallback longitude                       |
 | `WEATHER_DEFAULT_LABEL` | `Tokyo, Japan` | Display label for the fallback location |
+| `DATABASE_URL`          | _(empty)_   | Postgres DSN. When unset the app starts without a DB; when set, the app pings on boot, runs pending migrations, and registers a `database` health check |
 
 ## Project layout
 
@@ -128,9 +129,13 @@ go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
 ### Migrations (sql-migrate)
 
+The app runs pending migrations automatically on startup (embedded via
+`//go:embed db/migrations/*.sql` in `main.go`). The `sql-migrate` CLI is
+still useful for scaffolding new migrations and rolling back:
+
 ```bash
 sql-migrate new add_users_table   # scaffold db/migrations/<ts>-add_users_table.sql
-sql-migrate up                    # apply pending migrations
+sql-migrate up                    # apply pending migrations (also done on app startup)
 sql-migrate down                  # roll back the most recent migration
 sql-migrate status                # show applied / pending
 ```

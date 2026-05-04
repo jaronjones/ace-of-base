@@ -14,8 +14,8 @@ Dockerfile
 docker-compose.yml
 .dockerignore
 
-# DB tooling source (sqlc-generated Go in internal/db/sqlc IS needed; the
-# raw SQL and configs are only used at dev/ops time).
-db/
+# Migrations (db/migrations/) ship inside the binary via go:embed; queries
+# and CLI configs are only used at dev/ops time.
+db/queries/
 sqlc.yaml
 dbconfig.yml

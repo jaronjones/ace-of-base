@@ -10,9 +10,10 @@ import (
 )
 
 type Config struct {
-	HTTP    HTTPConfig
-	Log     LogConfig
-	Weather WeatherConfig
+	HTTP     HTTPConfig
+	Log      LogConfig
+	Weather  WeatherConfig
+	Database DatabaseConfig
 }
 
 type HTTPConfig struct {
@@ -33,6 +34,10 @@ type WeatherConfig struct {
 	DefaultLat       float64
 	DefaultLon       float64
 	DefaultLabel     string
+}
+
+type DatabaseConfig struct {
+	URL string
 }
 
 func Load() (Config, error) {
@@ -58,6 +63,9 @@ func Load() (Config, error) {
 			DefaultLat:       envFloat("WEATHER_DEFAULT_LAT", 35.6762),
 			DefaultLon:       envFloat("WEATHER_DEFAULT_LON", 139.6503),
 			DefaultLabel:     env("WEATHER_DEFAULT_LABEL", "Tokyo, Japan"),
+		},
+		Database: DatabaseConfig{
+			URL: env("DATABASE_URL", ""),
 		},
 	}
 

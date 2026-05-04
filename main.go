@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"embed"
 	"fmt"
 	"log"
 	"log/slog"
@@ -12,12 +13,16 @@ import (
 
 	"jaronjones/ace-of-base/api"
 	"jaronjones/ace-of-base/internal/config"
+	"jaronjones/ace-of-base/internal/db"
 	"jaronjones/ace-of-base/internal/logging"
 	"jaronjones/ace-of-base/internal/version"
 	"jaronjones/ace-of-base/internal/weather"
 
 	"jaronjones/ace-of-base/views"
 )
+
+//go:embed db/migrations/*.sql
+var migrationsFS embed.FS
 
 func main() {
 	cfg, err := config.Load()
@@ -34,6 +39,29 @@ func main() {
 	}
 	views.SetWeather(&weather.Client{APIKey: cfg.Weather.TomorrowIOAPIKey, HTTP: http.DefaultClient}, cfg.Weather)
 
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	if cfg.Database.URL == "" {
+		slog.Warn("DATABASE_URL not set; skipping postgres connection and migrations")
+	} else {
+		sqlDB, err := db.Open(ctx, cfg.Database, migrationsFS, "db/migrations")
+		if err != nil {
+			log.Fatalf("db: %v", err)
+		}
+		defer sqlDB.Close()
+
+		api.RegisterHealthCheck(func() api.HealthCheck {
+			check := api.HealthCheck{Name: "database"}
+			if err := db.Ping(ctx, sqlDB); err != nil {
+				check.Status = api.Status{Ok: false, Message: err.Error()}
+				return check
+			}
+			check.Status = api.Status{Ok: true}
+			return check
+		})
+	}
+
 	mux := http.NewServeMux()
 	api.AddRoutes(mux)
 
@@ -47,9 +75,6 @@ func main() {
 		ReadTimeout:  cfg.HTTP.ReadTimeout,
 		WriteTimeout: cfg.HTTP.WriteTimeout,
 	}
-
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
 
 	go func() {
 		slog.Info("listening", "addr", srv.Addr)
