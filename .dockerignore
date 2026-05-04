@@ -1,0 +1,21 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+
+bin/
+*.gz
+
+.claude/
+design/
+README.md
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# DB tooling source (sqlc-generated Go in internal/db/sqlc IS needed; the
+# raw SQL and configs are only used at dev/ops time).
+db/
+sqlc.yaml
+dbconfig.yml

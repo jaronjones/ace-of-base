@@ -39,8 +39,18 @@ func Search(ctx context.Context, q string) ([]Place, error) {
 		return nil, nil
 	}
 
+	// Open-Meteo matches plain city names, not "City, Region" — strip after the
+	// first comma so a query like "Lehi, Utah" still returns matches.
+	name := q
+	if i := strings.Index(name, ","); i > 0 {
+		name = strings.TrimSpace(name[:i])
+	}
+	if len(name) < 2 {
+		return nil, nil
+	}
+
 	params := url.Values{}
-	params.Set("name", q)
+	params.Set("name", name)
 	params.Set("count", "5")
 	params.Set("language", "en")
 	params.Set("format", "json")

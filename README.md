@@ -22,6 +22,23 @@ go run .
 open http://localhost:8081
 ```
 
+### Run with Docker
+
+```bash
+# Builds the app image and starts both `app` and `db` (postgres 17).
+docker compose up --build
+
+# Tear down (keep data):
+docker compose down
+
+# Tear down and wipe the postgres volume:
+docker compose down -v
+```
+
+Compose reads `.env` for `TOMORROW_IO_API_KEY` and any postgres overrides
+(see `.env.example`). The app is on `:8081`; postgres binds to
+`127.0.0.1:5432`.
+
 You'll need the `templ` CLI installed if you change any `.templ` files:
 
 ```bash
@@ -95,6 +112,50 @@ daisyUI v5 `--color-*` variables (in `oklch()`) plus a `--neon-grid-rgb`
 custom property used by the body-grid background. Selection is applied to
 `<html data-theme>` and persisted in `localStorage` under `neon-os-theme`;
 a small inline script in `<head>` restores it before paint to avoid FOUC.
+
+## Database
+
+PostgreSQL is provisioned by `docker compose` (`db` service, persistent
+`pgdata` volume). Schema lives in `db/migrations/` (sql-migrate format) and
+hand-written queries in `db/queries/` are compiled to type-safe Go via sqlc.
+
+Install the CLIs once:
+
+```bash
+go install github.com/rubenv/sql-migrate/sql-migrate@latest
+go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+```
+
+### Migrations (sql-migrate)
+
+```bash
+sql-migrate new add_users_table   # scaffold db/migrations/<ts>-add_users_table.sql
+sql-migrate up                    # apply pending migrations
+sql-migrate down                  # roll back the most recent migration
+sql-migrate status                # show applied / pending
+```
+
+`dbconfig.yml` defines two envs:
+
+- `development` (default) — points at the compose db on `127.0.0.1:5432`
+- `production` — reads `DATABASE_URL` from the environment; run with `-env=production`
+
+Migration files use sql-migrate's `-- +migrate Up` / `-- +migrate Down`
+markers. Multiple statements are split on `;`; use `-- +migrate StatementBegin`
+/ `StatementEnd` for functions or anything containing semicolons.
+
+### Type-safe queries (sqlc)
+
+Add SQL to `db/queries/*.sql` with sqlc annotation comments, then:
+
+```bash
+sqlc generate    # writes Go to internal/db/sqlc/
+```
+
+`sqlc.yaml` is pre-configured for `engine: postgresql`, `sql_package:
+database/sql`, and reads the schema directly from the sql-migrate files in
+`db/migrations/`. Generated code is committed so CI doesn't need the sqlc
+binary.
 
 ## Build & version stamping
 
