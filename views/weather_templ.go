@@ -244,7 +244,11 @@ func weatherError(code, detail string) templ.Component {
 	})
 }
 
-// weatherSearchResults is the autocomplete dropdown content. Empty list collapses.
+// weatherSearchResults is the autocomplete dropdown content. We use
+// hx-on:mousedown rather than a templ `script` block because templ scripts
+// emitted inside an HTMX-swapped fragment never execute (innerHTML doesn't
+// run scripts), and we use mousedown rather than click so the handler fires
+// before the daisyUI dropdown closes from the input losing focus.
 func weatherSearchResults(places []weather.Place) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -273,50 +277,72 @@ func weatherSearchResults(places []weather.Place) templ.Component {
 			}
 		} else {
 			for _, p := range places {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<li>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<li><button type=\"button\" class=\"weather-pick flex flex-col items-start gap-0 py-2 px-3 text-xs hover:bg-primary/10 w-full text-left\" data-lat=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templ.RenderScriptItems(ctx, templ_7745c5c3_Buffer, pickWeatherLocation(p.Lat, p.Lon, p.Label()))
+				var templ_7745c5c3_Var15 string
+				templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%f", p.Lat))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/weather.templ`, Line: 75, Col: 40}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<button type=\"button\" class=\"flex flex-col items-start gap-0 py-2 px-3 text-xs hover:bg-primary/10 w-full text-left\" onclick=\"")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var15 templ.ComponentScript = pickWeatherLocation(p.Lat, p.Lon, p.Label())
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var15.Call)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\"><span class=\"font-display font-bold uppercase tracking-wider text-primary\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\" data-lon=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var16 string
-				templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
+				templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%f", p.Lon))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/weather.templ`, Line: 74, Col: 14}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/weather.templ`, Line: 76, Col: 40}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</span> <span class=\"text-[10px] text-base-content/50\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" data-label=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var17 string
 				templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(p.Label())
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/weather.templ`, Line: 76, Col: 63}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/weather.templ`, Line: 77, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</span></button></li>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\" hx-on:mousedown=\"event.preventDefault(); window.setNeonWeatherLocation(parseFloat(this.dataset.lat), parseFloat(this.dataset.lon), this.dataset.label); if (document.activeElement) document.activeElement.blur();\"><span class=\"font-display font-bold uppercase tracking-wider text-primary\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var18 string
+				templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/weather.templ`, Line: 81, Col: 14}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</span> <span class=\"text-[10px] text-base-content/50\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var19 string
+				templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(p.Label())
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/weather.templ`, Line: 83, Col: 63}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</span></button></li>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -344,12 +370,12 @@ func weatherEditPanel() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var18 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var18 == nil {
-			templ_7745c5c3_Var18 = templ.NopComponent
+		templ_7745c5c3_Var20 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var20 == nil {
+			templ_7745c5c3_Var20 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<div class=\"dropdown dropdown-end\"><div tabindex=\"0\" role=\"button\" class=\"cursor-pointer text-primary hover:scale-110 transition-transform\" title=\"Configure weather\" aria-label=\"Configure weather\"><span class=\"material-symbols-outlined text-base\">settings</span></div><div tabindex=\"0\" class=\"dropdown-content z-[60] mt-3 w-72 bg-base-200 border border-primary/40 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-box p-3 space-y-3\"><div><p class=\"font-display text-[10px] font-bold tracking-widest uppercase text-primary mb-1\">LOCATION_QUERY</p><input type=\"text\" placeholder=\"city, region...\" class=\"input input-sm input-bordered w-full bg-base-300 font-mono text-xs\" hx-get=\"/views/weather/search\" hx-trigger=\"keyup changed delay:250ms, search\" hx-target=\"#weather-search-results\" hx-swap=\"innerHTML\" name=\"q\" autocomplete=\"off\"><ul id=\"weather-search-results\" class=\"menu menu-sm bg-base-300/80 mt-2 rounded-box max-h-56 overflow-y-auto\"></ul></div><div class=\"border-t border-primary/20 pt-3\"><p class=\"font-display text-[10px] font-bold tracking-widest uppercase text-primary mb-2\">DISPLAY_UNITS</p><div class=\"join w-full\" id=\"weather-units-toggle\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<div class=\"dropdown dropdown-end\"><div tabindex=\"0\" role=\"button\" class=\"cursor-pointer text-primary hover:scale-110 transition-transform\" title=\"Configure weather\" aria-label=\"Configure weather\"><span class=\"material-symbols-outlined text-base\">settings</span></div><div tabindex=\"0\" class=\"dropdown-content z-[60] mt-3 w-72 bg-base-200 border border-primary/40 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-box p-3 space-y-3\"><div><p class=\"font-display text-[10px] font-bold tracking-widest uppercase text-primary mb-1\">LOCATION_QUERY</p><input type=\"text\" placeholder=\"city, region...\" class=\"input input-sm input-bordered w-full bg-base-300 font-mono text-xs\" hx-get=\"/views/weather/search\" hx-trigger=\"keyup changed delay:250ms, search\" hx-target=\"#weather-search-results\" hx-swap=\"innerHTML\" name=\"q\" autocomplete=\"off\"><ul id=\"weather-search-results\" class=\"menu menu-sm bg-base-300/80 mt-2 rounded-box max-h-56 overflow-y-auto\"></ul></div><div class=\"border-t border-primary/20 pt-3\"><p class=\"font-display text-[10px] font-bold tracking-widest uppercase text-primary mb-2\">DISPLAY_UNITS</p><div class=\"join w-full\" id=\"weather-units-toggle\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -357,16 +383,16 @@ func weatherEditPanel() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<button type=\"button\" data-units=\"metric\" class=\"btn btn-xs join-item flex-1 font-display tracking-widest\" onclick=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<button type=\"button\" data-units=\"metric\" class=\"btn btn-xs join-item flex-1 font-display tracking-widest\" onclick=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var19 templ.ComponentScript = pickWeatherUnits("metric")
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var19.Call)
+		var templ_7745c5c3_Var21 templ.ComponentScript = pickWeatherUnits("metric")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var21.Call)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\">°C</button> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\">°C</button> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -374,32 +400,21 @@ func weatherEditPanel() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<button type=\"button\" data-units=\"imperial\" class=\"btn btn-xs join-item flex-1 font-display tracking-widest\" onclick=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<button type=\"button\" data-units=\"imperial\" class=\"btn btn-xs join-item flex-1 font-display tracking-widest\" onclick=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var20 templ.ComponentScript = pickWeatherUnits("imperial")
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var20.Call)
+		var templ_7745c5c3_Var22 templ.ComponentScript = pickWeatherUnits("imperial")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var22.Call)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "\">°F</button></div></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\">°F</button></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		return nil
 	})
-}
-
-func pickWeatherLocation(lat, lon float64, label string) templ.ComponentScript {
-	return templ.ComponentScript{
-		Name: `__templ_pickWeatherLocation_8941`,
-		Function: `function __templ_pickWeatherLocation_8941(lat, lon, label){if (window.setNeonWeatherLocation) window.setNeonWeatherLocation(lat, lon, label);
-	if (document.activeElement) document.activeElement.blur();
-}`,
-		Call:       templ.SafeScript(`__templ_pickWeatherLocation_8941`, lat, lon, label),
-		CallInline: templ.SafeScriptInline(`__templ_pickWeatherLocation_8941`, lat, lon, label),
-	}
 }
 
 func pickWeatherUnits(units string) templ.ComponentScript {

@@ -1,0 +1,22 @@
+# sql-migrate configuration. Usage:
+#
+#   sql-migrate new <name>          # scaffold a new migration in db/migrations
+#   sql-migrate up                  # apply pending migrations
+#   sql-migrate down                # roll back the most recent migration
+#   sql-migrate status              # show applied / pending
+#
+# Override the datasource for non-dev environments by setting DATABASE_URL and
+# running with `-env=production`, or by exporting the var that the YAML
+# expands below.
+
+development:
+  dialect: postgres
+  datasource: postgres://aceofbase:aceofbase@127.0.0.1:5432/aceofbase?sslmode=disable
+  dir: db/migrations
+  table: schema_migrations
+
+production:
+  dialect: postgres
+  datasource: ${DATABASE_URL}
+  dir: db/migrations
+  table: schema_migrations

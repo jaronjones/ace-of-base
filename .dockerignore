@@ -1,0 +1,21 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+
+bin/
+*.gz
+
+.claude/
+design/
+README.md
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Migrations (db/migrations/) ship inside the binary via go:embed; queries
+# and CLI configs are only used at dev/ops time.
+db/queries/
+sqlc.yaml
+dbconfig.yml

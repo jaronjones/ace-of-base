@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        VERSION: ${VERSION:-docker}
+    image: ace-of-base:local
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${HTTP_PORT:-8081}:8081"
+    environment:
+      HTTP_HOST: 0.0.0.0
+      HTTP_PORT: 8081
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      TOMORROW_IO_API_KEY: ${TOMORROW_IO_API_KEY:-}
+      WEATHER_DEFAULT_LAT: ${WEATHER_DEFAULT_LAT:-}
+      WEATHER_DEFAULT_LON: ${WEATHER_DEFAULT_LON:-}
+      WEATHER_DEFAULT_LABEL: ${WEATHER_DEFAULT_LABEL:-}
+      DATABASE_URL: postgres://${POSTGRES_USER:-aceofbase}:${POSTGRES_PASSWORD:-aceofbase}@db:5432/${POSTGRES_DB:-aceofbase}?sslmode=disable
+    restart: unless-stopped
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-aceofbase}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-aceofbase}
+      POSTGRES_DB: ${POSTGRES_DB:-aceofbase}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-aceofbase} -d ${POSTGRES_DB:-aceofbase}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata:

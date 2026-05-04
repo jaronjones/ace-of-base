@@ -56,7 +56,11 @@ templ weatherError(code, detail string) {
 	</div>
 }
 
-// weatherSearchResults is the autocomplete dropdown content. Empty list collapses.
+// weatherSearchResults is the autocomplete dropdown content. We use
+// hx-on:mousedown rather than a templ `script` block because templ scripts
+// emitted inside an HTMX-swapped fragment never execute (innerHTML doesn't
+// run scripts), and we use mousedown rather than click so the handler fires
+// before the daisyUI dropdown closes from the input losing focus.
 templ weatherSearchResults(places []weather.Place) {
 	if len(places) == 0 {
 		<li class="px-3 py-2 text-[10px] text-base-content/40 font-display tracking-widest uppercase">
@@ -67,8 +71,11 @@ templ weatherSearchResults(places []weather.Place) {
 			<li>
 				<button
 					type="button"
-					class="flex flex-col items-start gap-0 py-2 px-3 text-xs hover:bg-primary/10 w-full text-left"
-					onclick={ pickWeatherLocation(p.Lat, p.Lon, p.Label()) }
+					class="weather-pick flex flex-col items-start gap-0 py-2 px-3 text-xs hover:bg-primary/10 w-full text-left"
+					data-lat={ fmt.Sprintf("%f", p.Lat) }
+					data-lon={ fmt.Sprintf("%f", p.Lon) }
+					data-label={ p.Label() }
+					hx-on:mousedown="event.preventDefault(); window.setNeonWeatherLocation(parseFloat(this.dataset.lat), parseFloat(this.dataset.lon), this.dataset.label); if (document.activeElement) document.activeElement.blur();"
 				>
 					<span class="font-display font-bold uppercase tracking-wider text-primary">
 						{ p.Name }
@@ -120,11 +127,6 @@ templ weatherEditPanel() {
 			</div>
 		</div>
 	</div>
-}
-
-script pickWeatherLocation(lat, lon float64, label string) {
-	if (window.setNeonWeatherLocation) window.setNeonWeatherLocation(lat, lon, label);
-	if (document.activeElement) document.activeElement.blur();
 }
 
 script pickWeatherUnits(units string) {
