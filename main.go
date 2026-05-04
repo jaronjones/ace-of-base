@@ -14,9 +14,9 @@ import (
 	"jaronjones/ace-of-base/internal/config"
 	"jaronjones/ace-of-base/internal/logging"
 	"jaronjones/ace-of-base/internal/version"
+	"jaronjones/ace-of-base/internal/weather"
 
 	"jaronjones/ace-of-base/views"
-
 )
 
 func main() {
@@ -28,6 +28,11 @@ func main() {
 	logging.Setup(cfg.Log.Level, cfg.Log.DevMode)
 
 	slog.Info("starting ace-of-base", "version", version.Version)
+
+	if cfg.Weather.TomorrowIOAPIKey == "" {
+		slog.Warn("TOMORROW_IO_API_KEY not set; weather widget will render API_KEY_MISSING")
+	}
+	views.SetWeather(&weather.Client{APIKey: cfg.Weather.TomorrowIOAPIKey, HTTP: http.DefaultClient}, cfg.Weather)
 
 	mux := http.NewServeMux()
 	api.AddRoutes(mux)

@@ -357,6 +357,16 @@ body {
 .status-dot.ok  { background: var(--color-success); box-shadow: 0 0 6px var(--color-success); }
 .status-dot.err { background: var(--color-error);   box-shadow: 0 0 6px var(--color-error); }
 
+/* ───────── Weather widget unit toggle ───────── */
+[data-weather-units="metric"]   .unit-imperial { display: none; }
+[data-weather-units="imperial"] .unit-metric   { display: none; }
+
+#weather-units-toggle button[data-units].active {
+  background: var(--color-primary);
+  color: var(--color-primary-content);
+  box-shadow: 0 0 8px color-mix(in oklch, var(--color-primary) 60%, transparent);
+}
+
 /* ───────── Theme picker swatch ───────── */
 .theme-swatch {
   display: inline-grid;

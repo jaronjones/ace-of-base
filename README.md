@@ -15,11 +15,11 @@ borders, and high-density "terminal block" widgets.
 ## Quick start
 
 ```bash
-# Run the server (defaults to :8080)
+# Run the server (defaults to :8081)
 go run .
 
 # Open the dashboard
-open http://localhost:8080
+open http://localhost:8081
 ```
 
 You'll need the `templ` CLI installed if you change any `.templ` files:
@@ -37,12 +37,16 @@ root is read automatically when running in dev mode (real env vars always win).
 | Variable                | Default     | Description                              |
 | ----------------------- | ----------- | ---------------------------------------- |
 | `HTTP_HOST`             | `0.0.0.0`   | Listen address                           |
-| `HTTP_PORT`             | `8080`      | Listen port                              |
+| `HTTP_PORT`             | `8081`      | Listen port                              |
 | `HTTP_READ_TIMEOUT`     | `5s`        | Request read timeout                     |
 | `HTTP_WRITE_TIMEOUT`    | `10s`       | Response write timeout                   |
 | `HTTP_SHUTDOWN_TIMEOUT` | `30s`       | Graceful shutdown deadline               |
 | `LOG_LEVEL`             | `info`      | `debug`, `info`, `warn`, `error`         |
 | `DEV_MODE`              | TTY-detect  | Pretty/text logs and `.env` loading      |
+| `TOMORROW_IO_API_KEY`   | _(empty)_   | Required for the LOCAL_CLIMATE widget; without it the widget renders `API_KEY_MISSING` |
+| `WEATHER_DEFAULT_LAT`   | `35.6762`   | Fallback latitude on first visit (Tokyo) |
+| `WEATHER_DEFAULT_LON`   | `139.6503`  | Fallback longitude                       |
+| `WEATHER_DEFAULT_LABEL` | `Tokyo, Japan` | Display label for the fallback location |
 
 ## Project layout
 
@@ -67,7 +71,8 @@ root is read automatically when running in dev mode (real env vars always win).
 ├── internal/
 │   ├── config/              # Env-var driven config + .env loader
 │   ├── logging/             # slog setup (JSON in prod, text in dev)
-│   └── version/             # Build-stamped version string
+│   ├── version/             # Build-stamped version string
+│   └── weather/             # Tomorrow.io realtime client + Open-Meteo geocoder
 ├── cmd/version/             # Stamps internal/version/version.go from git
 └── design/stitch/           # Design system spec (NEON_OS_DESIGN.md + screens)
 ```
@@ -111,6 +116,24 @@ the navbar via an htmx `hx-get` on page load.
 | ------ | --------------------- | ------------------------------------------ |
 | GET    | `/`                   | NEON_OS dashboard (HTML)                   |
 | GET    | `/views/status`       | Status badge htmx fragment                 |
+| GET    | `/views/weather`      | Weather widget htmx fragment (`?lat=&lon=&label=`) |
+| GET    | `/views/weather/search` | Geocoding autocomplete htmx fragment (`?q=`) |
 | GET    | `/health`             | JSON health check (200 OK / 503 degraded)  |
 | GET    | `/api/v1/version`     | Plain-text build version                   |
 | GET    | `/static/*`           | CSS, JS, fonts                             |
+
+## Weather widget
+
+The dashboard's `LOCAL_CLIMATE` block fetches real conditions from
+[Tomorrow.io's Realtime API](https://docs.tomorrow.io/reference/realtime-weather).
+Set `TOMORROW_IO_API_KEY` in `.env` (or your real environment) to enable it.
+
+Users pick a city via the gear-icon dropdown on the widget. Typing into the
+input hits `/views/weather/search`, which proxies to the no-auth
+[Open-Meteo geocoding API](https://open-meteo.com/en/docs/geocoding-api).
+The chosen location and the °C/°F preference are stored in browser
+`localStorage` (`neon-os-weather-{lat,lon,label,units}`) and survive reloads.
+
+The server caches Tomorrow.io responses for 5 minutes per coordinate to stay
+well within the free-tier limits (25/hour, 500/day). The browser refreshes
+every 30 minutes.

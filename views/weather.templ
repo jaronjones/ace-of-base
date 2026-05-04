@@ -1,0 +1,132 @@
+package views
+
+import (
+	"fmt"
+
+	"jaronjones/ace-of-base/internal/weather"
+)
+
+// weatherContent renders into #weather-content. Both °C/°F and km/h/mph values
+// are emitted; CSS rules in app.css show one set or the other based on the
+// `data-units` attribute on the widget root.
+templ weatherContent(d weather.Realtime, label string) {
+	<div class="flex items-center gap-4 mb-2">
+		<span class="font-display text-6xl font-bold text-base-content leading-none">
+			<span class="unit-metric">{ fmt.Sprintf("%.0f", d.TempC) }°C</span>
+			<span class="unit-imperial">{ fmt.Sprintf("%.0f", d.TempF) }°F</span>
+		</span>
+		<div class="text-base-content/70 min-w-0">
+			<p class="font-display text-sm font-bold uppercase tracking-wider truncate">{ label }</p>
+			<p class="text-xs">
+				Humidity: { fmt.Sprintf("%.0f", d.Humidity) }% | Precip: { fmt.Sprintf("%.0f", d.PrecipProbability) }%
+			</p>
+			<p class="text-xs">
+				Wind:
+				<span class="unit-metric">{ fmt.Sprintf("%.0f km/h", d.WindSpeedKph) }</span>
+				<span class="unit-imperial">{ fmt.Sprintf("%.0f mph", d.WindSpeedMph) }</span>
+			</p>
+		</div>
+	</div>
+	<div class="mt-8 pt-4 border-t border-primary/20">
+		<p class="text-[10px] text-primary/80 font-bold tracking-widest uppercase">
+			Forecast: { d.Condition }
+		</p>
+	</div>
+}
+
+templ weatherEmpty() {
+	<div class="flex flex-col items-center justify-center h-full py-6 text-center">
+		<span class="material-symbols-outlined text-primary/60 text-4xl mb-2">place</span>
+		<p class="font-display text-xs font-bold tracking-widest uppercase text-base-content/60">
+			SET LOCATION
+		</p>
+		<p class="text-[10px] text-base-content/40 mt-1">Use the gear icon</p>
+	</div>
+}
+
+templ weatherError(code, detail string) {
+	<div class="flex flex-col items-center justify-center h-full py-6 text-center">
+		<span class="material-symbols-outlined text-error text-4xl mb-2">cloud_off</span>
+		<p class="font-display text-xs font-bold tracking-widest uppercase text-error">
+			{ code }
+		</p>
+		if detail != "" {
+			<p class="text-[10px] text-base-content/40 mt-1">{ detail }</p>
+		}
+	</div>
+}
+
+// weatherSearchResults is the autocomplete dropdown content. Empty list collapses.
+templ weatherSearchResults(places []weather.Place) {
+	if len(places) == 0 {
+		<li class="px-3 py-2 text-[10px] text-base-content/40 font-display tracking-widest uppercase">
+			No results
+		</li>
+	} else {
+		for _, p := range places {
+			<li>
+				<button
+					type="button"
+					class="flex flex-col items-start gap-0 py-2 px-3 text-xs hover:bg-primary/10 w-full text-left"
+					onclick={ pickWeatherLocation(p.Lat, p.Lon, p.Label()) }
+				>
+					<span class="font-display font-bold uppercase tracking-wider text-primary">
+						{ p.Name }
+					</span>
+					<span class="text-[10px] text-base-content/50">{ p.Label() }</span>
+				</button>
+			</li>
+		}
+	}
+}
+
+// weatherEditPanel renders the gear-icon dropdown with the autocomplete input
+// and the °C/°F toggle. Lives in the static header of the widget.
+templ weatherEditPanel() {
+	<div class="dropdown dropdown-end">
+		<div tabindex="0" role="button" class="cursor-pointer text-primary hover:scale-110 transition-transform" title="Configure weather" aria-label="Configure weather">
+			<span class="material-symbols-outlined text-base">settings</span>
+		</div>
+		<div tabindex="0" class="dropdown-content z-[60] mt-3 w-72 bg-base-200 border border-primary/40 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-box p-3 space-y-3">
+			<div>
+				<p class="font-display text-[10px] font-bold tracking-widest uppercase text-primary mb-1">
+					LOCATION_QUERY
+				</p>
+				<input
+					type="text"
+					placeholder="city, region..."
+					class="input input-sm input-bordered w-full bg-base-300 font-mono text-xs"
+					hx-get="/views/weather/search"
+					hx-trigger="keyup changed delay:250ms, search"
+					hx-target="#weather-search-results"
+					hx-swap="innerHTML"
+					name="q"
+					autocomplete="off"
+				/>
+				<ul id="weather-search-results" class="menu menu-sm bg-base-300/80 mt-2 rounded-box max-h-56 overflow-y-auto"></ul>
+			</div>
+			<div class="border-t border-primary/20 pt-3">
+				<p class="font-display text-[10px] font-bold tracking-widest uppercase text-primary mb-2">
+					DISPLAY_UNITS
+				</p>
+				<div class="join w-full" id="weather-units-toggle">
+					<button type="button" data-units="metric" class="btn btn-xs join-item flex-1 font-display tracking-widest" onclick={ pickWeatherUnits("metric") }>
+						°C
+					</button>
+					<button type="button" data-units="imperial" class="btn btn-xs join-item flex-1 font-display tracking-widest" onclick={ pickWeatherUnits("imperial") }>
+						°F
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+script pickWeatherLocation(lat, lon float64, label string) {
+	if (window.setNeonWeatherLocation) window.setNeonWeatherLocation(lat, lon, label);
+	if (document.activeElement) document.activeElement.blur();
+}
+
+script pickWeatherUnits(units string) {
+	if (window.setNeonWeatherUnits) window.setNeonWeatherUnits(units);
+}
