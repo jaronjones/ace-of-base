@@ -1,6 +1,8 @@
 
 package views
 
+import "fmt"
+
 templ dashboardPage() {
 	@layout("NEON_HORIZON · ace-of-base") {
 		// ───────── Top Nav ─────────
@@ -101,22 +103,22 @@ templ dashboardPage() {
 			// Bento grid
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
 				// Weather
-				<div class="md:col-span-4 glass-panel neon-border-top p-8 flex flex-col justify-between">
-					<div>
-						<div class="flex justify-between items-start mb-4">
-							<span class="font-display text-xs font-bold tracking-widest uppercase text-primary">LOCAL_CLIMATE</span>
-							<span class="material-symbols-outlined text-primary">cloud_done</span>
-						</div>
-						<div class="flex items-center gap-4">
-							<span class="font-display text-6xl font-bold text-base-content">24°C</span>
-							<div class="text-base-content/70">
-								<p class="font-display text-sm font-bold uppercase tracking-wider">Neo-Tokyo</p>
-								<p class="text-xs">Humidity: 65% | Acid Rain: 12%</p>
-							</div>
-						</div>
+				<div
+					id="weather-widget"
+					data-weather-units="metric"
+					data-default-lat={ fmt.Sprintf("%f", WeatherDefaults().DefaultLat) }
+					data-default-lon={ fmt.Sprintf("%f", WeatherDefaults().DefaultLon) }
+					data-default-label={ WeatherDefaults().DefaultLabel }
+					class="md:col-span-4 glass-panel neon-border-top p-8 flex flex-col justify-between relative"
+				>
+					<div class="flex justify-between items-start mb-4">
+						<span class="font-display text-xs font-bold tracking-widest uppercase text-primary">LOCAL_CLIMATE</span>
+						@weatherEditPanel()
 					</div>
-					<div class="mt-8 pt-4 border-t border-primary/20">
-						<p class="text-[10px] text-primary/80 font-bold tracking-widest uppercase">Forecast: Perennial Twilight</p>
+					<div id="weather-content" class="flex-1 flex flex-col justify-between min-h-[140px]">
+						<div class="flex items-center justify-center h-full">
+							<span class="loading loading-dots loading-md text-primary"></span>
+						</div>
 					</div>
 				</div>
 				// Stock ticker
@@ -241,7 +243,57 @@ templ dashboardPage() {
 				<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform">add_circle</span>
 			</button>
 		</div>
+		@weatherBootstrap()
 	}
+}
+
+// weatherBootstrap wires localStorage <-> the swap target. Server-side defaults
+// are read off the data-default-* attributes set on #weather-widget.
+templ weatherBootstrap() {
+	<script>
+		(function () {
+			var widget = document.getElementById('weather-widget');
+			if (!widget) return;
+
+			function read(k, fb) { try { return localStorage.getItem(k) || fb; } catch (e) { return fb; } }
+			function write(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+			function applyUnitsUI(units) {
+				widget.setAttribute('data-weather-units', units);
+				var btns = widget.querySelectorAll('#weather-units-toggle button[data-units]');
+				btns.forEach(function (b) {
+					b.classList.toggle('active', b.getAttribute('data-units') === units);
+				});
+			}
+
+			function refresh() {
+				var lat   = read('neon-os-weather-lat',   widget.dataset.defaultLat);
+				var lon   = read('neon-os-weather-lon',   widget.dataset.defaultLon);
+				var label = read('neon-os-weather-label', widget.dataset.defaultLabel);
+				var qs = 'lat=' + encodeURIComponent(lat)
+				       + '&lon=' + encodeURIComponent(lon)
+				       + '&label=' + encodeURIComponent(label);
+				window.htmx.ajax('GET', '/views/weather?' + qs, { target: '#weather-content', swap: 'innerHTML' });
+			}
+
+			window.setNeonWeatherLocation = function (lat, lon, label) {
+				write('neon-os-weather-lat',   String(lat));
+				write('neon-os-weather-lon',   String(lon));
+				write('neon-os-weather-label', label);
+				refresh();
+			};
+
+			window.setNeonWeatherUnits = function (units) {
+				if (units !== 'metric' && units !== 'imperial') return;
+				write('neon-os-weather-units', units);
+				applyUnitsUI(units);
+			};
+
+			applyUnitsUI(read('neon-os-weather-units', 'metric'));
+			refresh();
+			setInterval(refresh, 30 * 60 * 1000);
+		})();
+	</script>
 }
 
 templ statusFragment(serverTime string) {

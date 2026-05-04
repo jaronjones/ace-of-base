@@ -10,8 +10,9 @@ import (
 )
 
 type Config struct {
-	HTTP HTTPConfig
-	Log  LogConfig
+	HTTP    HTTPConfig
+	Log     LogConfig
+	Weather WeatherConfig
 }
 
 type HTTPConfig struct {
@@ -27,6 +28,13 @@ type LogConfig struct {
 	DevMode bool
 }
 
+type WeatherConfig struct {
+	TomorrowIOAPIKey string
+	DefaultLat       float64
+	DefaultLon       float64
+	DefaultLabel     string
+}
+
 func Load() (Config, error) {
 	devMode := envBool("DEV_MODE", isTerminal())
 	if devMode {
@@ -36,7 +44,7 @@ func Load() (Config, error) {
 	cfg := Config{
 		HTTP: HTTPConfig{
 			Host:            env("HTTP_HOST", "0.0.0.0"),
-			Port:            envInt("HTTP_PORT", 8080),
+			Port:            envInt("HTTP_PORT", 8081),
 			ReadTimeout:     envDuration("HTTP_READ_TIMEOUT", 5*time.Second),
 			WriteTimeout:    envDuration("HTTP_WRITE_TIMEOUT", 10*time.Second),
 			ShutdownTimeout: envDuration("HTTP_SHUTDOWN_TIMEOUT", 30*time.Second),
@@ -44,6 +52,12 @@ func Load() (Config, error) {
 		Log: LogConfig{
 			Level:   env("LOG_LEVEL", "info"),
 			DevMode: devMode,
+		},
+		Weather: WeatherConfig{
+			TomorrowIOAPIKey: env("TOMORROW_IO_API_KEY", ""),
+			DefaultLat:       envFloat("WEATHER_DEFAULT_LAT", 35.6762),
+			DefaultLon:       envFloat("WEATHER_DEFAULT_LON", 139.6503),
+			DefaultLabel:     env("WEATHER_DEFAULT_LABEL", "Tokyo, Japan"),
 		},
 	}
 
@@ -92,6 +106,18 @@ func envDuration(key string, fallback time.Duration) time.Duration {
 		panic(fmt.Sprintf("env %q must be a duration (e.g. 5s, 1m), got %q", key, v))
 	}
 	return d
+}
+
+func envFloat(key string, fallback float64) float64 {
+	v := os.Getenv(key)
+	if v == "" {
+		return fallback
+	}
+	f, err := strconv.ParseFloat(v, 64)
+	if err != nil {
+		panic(fmt.Sprintf("env %q must be a float, got %q", key, v))
+	}
+	return f
 }
 
 func envBool(key string, fallback bool) bool {

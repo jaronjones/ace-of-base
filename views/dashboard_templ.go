@@ -9,6 +9,8 @@ package views
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import "fmt"
+
 func dashboardPage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -50,47 +52,129 @@ func dashboardPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<span class=\"material-symbols-outlined cursor-pointer hover:scale-110 transition-transform glow-p\">account_circle</span></div></header> <aside class=\"fixed left-0 top-16 bottom-0 w-64 hidden md:flex flex-col pt-8 bg-base-200 border-r-2 border-primary/30 shadow-[5px_0_15px_rgba(0,0,0,0.5)]\"><div class=\"px-6 mb-8 flex items-center gap-3\"><div class=\"w-10 h-10 rounded bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-content border border-primary/50\"><span class=\"material-symbols-outlined\">shield_person</span></div><div><p class=\"font-display text-xs font-bold tracking-widest text-primary leading-none\">OPERATOR_01</p><p class=\"text-[10px] text-base-content/40 tracking-tighter\">LEVEL_9_ADMIN</p></div></div><nav class=\"flex-1 space-y-1 font-display font-bold tracking-tighter\"><a class=\"bg-gradient-to-r from-primary/20 to-transparent border-l-4 border-primary text-primary px-6 py-4 flex items-center gap-4 transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">dashboard</span> DASHBOARD</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">widgets</span> WIDGETS</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">code</span> TERMINAL</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">home_max</span> HUB</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">settings</span> CONFIG</a></nav><div class=\"mt-auto border-t border-primary/20 font-display font-bold tracking-tighter\"><a class=\"text-base-content/60 px-6 py-8 flex items-center gap-4 hover:text-error transition-colors\" href=\"#\"><span class=\"material-symbols-outlined\">power_settings_new</span> LOGOUT</a></div></aside> <main class=\"md:ml-64 mt-16 p-6 min-h-screen\"><section class=\"relative w-full h-[400px] overflow-hidden glass-panel neon-border-top mb-6 group\"><div class=\"absolute inset-0 z-0 overflow-hidden bg-base-200\"><img class=\"w-full h-full object-cover opacity-60 mix-blend-screen group-hover:scale-105 transition-transform duration-[2s]\" src=\"https://lh3.googleusercontent.com/aida/ADBb0uiAAa2aN4X4Yj7h_uPQfONePGyRrDffBqB--4KQrv5LLLkmQ514dGOBB7Hae5FRR464T8QQEabGzVYhja-IeDjZ7LZyeSwmOGXUn_EpnHoxTwqWD89F2iGqbP6pJrvXqvwObtRpI-2Ut8fAjHP-kmFpIRH_mtA2DDcYLNkh_h5-Y9HRCUfZ53c8inlQbSUlz8alihSB_1xFem6Slnj-of2mFfLeU8_Wsfxt5lkWg55WNS_NwajDxP1QB32ZonOM5Ym3uM8_7s2E\" alt=\"Cinematic cyberpunk landscape: silhouette palm trees crossing over a magenta sun\"><div class=\"absolute inset-0 bg-gradient-to-t from-base-200 to-transparent\"></div></div><div class=\"relative z-10 h-full flex flex-col justify-end p-8\"><div class=\"space-y-2\"><div class=\"badge badge-primary badge-lg uppercase tracking-widest font-display font-bold gap-2\" hx-get=\"/views/status\" hx-trigger=\"load, every 5s\" hx-swap=\"innerHTML\"><span class=\"loading loading-dots loading-xs\"></span> CONNECTING</div><h1 class=\"font-display text-5xl md:text-6xl font-black uppercase tracking-tighter text-base-content glow-p\">NEON_HORIZON_OVERDRIVE</h1><p class=\"text-base-content/70 max-w-2xl text-lg\">Accessing deep-level kernel parameters. All sub-processes synchronized for global deployment. Welcome back, Operator.</p></div></div></section><div class=\"grid grid-cols-1 md:grid-cols-12 gap-6\"><div class=\"md:col-span-4 glass-panel neon-border-top p-8 flex flex-col justify-between\"><div><div class=\"flex justify-between items-start mb-4\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-primary\">LOCAL_CLIMATE</span> <span class=\"material-symbols-outlined text-primary\">cloud_done</span></div><div class=\"flex items-center gap-4\"><span class=\"font-display text-6xl font-bold text-base-content\">24°C</span><div class=\"text-base-content/70\"><p class=\"font-display text-sm font-bold uppercase tracking-wider\">Neo-Tokyo</p><p class=\"text-xs\">Humidity: 65% | Acid Rain: 12%</p></div></div></div><div class=\"mt-8 pt-4 border-t border-primary/20\"><p class=\"text-[10px] text-primary/80 font-bold tracking-widest uppercase\">Forecast: Perennial Twilight</p></div></div><div class=\"md:col-span-4 glass-panel neon-border-top p-8\"><div class=\"flex justify-between items-start mb-4\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-secondary\">MARKET_PULSE</span> <span class=\"material-symbols-outlined text-secondary\">query_stats</span></div><div class=\"space-y-4\"><div class=\"flex justify-between items-center bg-black/40 p-2 border-l-2 border-secondary\"><div><p class=\"font-display text-base-content font-bold text-xs\">SYNTH_CORP</p><p class=\"text-[10px] text-base-content/40\">SCXP:NASDAQ</p></div><div class=\"text-right\"><p class=\"text-secondary font-bold\">+12.4%</p><p class=\"text-[10px] text-secondary/50\">432.80 CR</p></div></div><div class=\"flex justify-between items-center bg-black/40 p-2 border-l-2 border-error\"><div><p class=\"font-display text-base-content font-bold text-xs\">AETHER_LINK</p><p class=\"text-[10px] text-base-content/40\">AELK:GLOBAL</p></div><div class=\"text-right\"><p class=\"text-error font-bold\">-0.82%</p><p class=\"text-[10px] text-error/50\">89.15 CR</p></div></div></div></div><div class=\"md:col-span-4 glass-panel neon-border-top p-8\"><div class=\"flex justify-between items-start mb-4\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-primary\">SYS_STABILITY</span> <span class=\"material-symbols-outlined text-primary\">monitoring</span></div><div class=\"space-y-4\"><div><div class=\"flex justify-between text-[10px] font-bold mb-1 font-display tracking-widest\"><span>CPU_USAGE</span><span>42%</span></div><div class=\"flex\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<span class=\"material-symbols-outlined cursor-pointer hover:scale-110 transition-transform glow-p\">account_circle</span></div></header> <aside class=\"fixed left-0 top-16 bottom-0 w-64 hidden md:flex flex-col pt-8 bg-base-200 border-r-2 border-primary/30 shadow-[5px_0_15px_rgba(0,0,0,0.5)]\"><div class=\"px-6 mb-8 flex items-center gap-3\"><div class=\"w-10 h-10 rounded bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-content border border-primary/50\"><span class=\"material-symbols-outlined\">shield_person</span></div><div><p class=\"font-display text-xs font-bold tracking-widest text-primary leading-none\">OPERATOR_01</p><p class=\"text-[10px] text-base-content/40 tracking-tighter\">LEVEL_9_ADMIN</p></div></div><nav class=\"flex-1 space-y-1 font-display font-bold tracking-tighter\"><a class=\"bg-gradient-to-r from-primary/20 to-transparent border-l-4 border-primary text-primary px-6 py-4 flex items-center gap-4 transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">dashboard</span> DASHBOARD</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">widgets</span> WIDGETS</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">code</span> TERMINAL</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">home_max</span> HUB</a> <a class=\"text-base-content/60 px-6 py-4 flex items-center gap-4 hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:translate-x-1\" href=\"#\"><span class=\"material-symbols-outlined\">settings</span> CONFIG</a></nav><div class=\"mt-auto border-t border-primary/20 font-display font-bold tracking-tighter\"><a class=\"text-base-content/60 px-6 py-8 flex items-center gap-4 hover:text-error transition-colors\" href=\"#\"><span class=\"material-symbols-outlined\">power_settings_new</span> LOGOUT</a></div></aside> <main class=\"md:ml-64 mt-16 p-6 min-h-screen\"><section class=\"relative w-full h-[400px] overflow-hidden glass-panel neon-border-top mb-6 group\"><div class=\"absolute inset-0 z-0 overflow-hidden bg-base-200\"><img class=\"w-full h-full object-cover opacity-60 mix-blend-screen group-hover:scale-105 transition-transform duration-[2s]\" src=\"https://lh3.googleusercontent.com/aida/ADBb0uiAAa2aN4X4Yj7h_uPQfONePGyRrDffBqB--4KQrv5LLLkmQ514dGOBB7Hae5FRR464T8QQEabGzVYhja-IeDjZ7LZyeSwmOGXUn_EpnHoxTwqWD89F2iGqbP6pJrvXqvwObtRpI-2Ut8fAjHP-kmFpIRH_mtA2DDcYLNkh_h5-Y9HRCUfZ53c8inlQbSUlz8alihSB_1xFem6Slnj-of2mFfLeU8_Wsfxt5lkWg55WNS_NwajDxP1QB32ZonOM5Ym3uM8_7s2E\" alt=\"Cinematic cyberpunk landscape: silhouette palm trees crossing over a magenta sun\"><div class=\"absolute inset-0 bg-gradient-to-t from-base-200 to-transparent\"></div></div><div class=\"relative z-10 h-full flex flex-col justify-end p-8\"><div class=\"space-y-2\"><div class=\"badge badge-primary badge-lg uppercase tracking-widest font-display font-bold gap-2\" hx-get=\"/views/status\" hx-trigger=\"load, every 5s\" hx-swap=\"innerHTML\"><span class=\"loading loading-dots loading-xs\"></span> CONNECTING</div><h1 class=\"font-display text-5xl md:text-6xl font-black uppercase tracking-tighter text-base-content glow-p\">NEON_HORIZON_OVERDRIVE</h1><p class=\"text-base-content/70 max-w-2xl text-lg\">Accessing deep-level kernel parameters. All sub-processes synchronized for global deployment. Welcome back, Operator.</p></div></div></section><div class=\"grid grid-cols-1 md:grid-cols-12 gap-6\"><div id=\"weather-widget\" data-weather-units=\"metric\" data-default-lat=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%f", WeatherDefaults().DefaultLat))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 109, Col: 71}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" data-default-lon=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%f", WeatherDefaults().DefaultLon))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 110, Col: 71}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" data-default-label=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(WeatherDefaults().DefaultLabel)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 111, Col: 56}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" class=\"md:col-span-4 glass-panel neon-border-top p-8 flex flex-col justify-between relative\"><div class=\"flex justify-between items-start mb-4\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-primary\">LOCAL_CLIMATE</span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = weatherEditPanel().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div><div id=\"weather-content\" class=\"flex-1 flex flex-col justify-between min-h-[140px]\"><div class=\"flex items-center justify-center h-full\"><span class=\"loading loading-dots loading-md text-primary\"></span></div></div></div><div class=\"md:col-span-4 glass-panel neon-border-top p-8\"><div class=\"flex justify-between items-start mb-4\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-secondary\">MARKET_PULSE</span> <span class=\"material-symbols-outlined text-secondary\">query_stats</span></div><div class=\"space-y-4\"><div class=\"flex justify-between items-center bg-black/40 p-2 border-l-2 border-secondary\"><div><p class=\"font-display text-base-content font-bold text-xs\">SYNTH_CORP</p><p class=\"text-[10px] text-base-content/40\">SCXP:NASDAQ</p></div><div class=\"text-right\"><p class=\"text-secondary font-bold\">+12.4%</p><p class=\"text-[10px] text-secondary/50\">432.80 CR</p></div></div><div class=\"flex justify-between items-center bg-black/40 p-2 border-l-2 border-error\"><div><p class=\"font-display text-base-content font-bold text-xs\">AETHER_LINK</p><p class=\"text-[10px] text-base-content/40\">AELK:GLOBAL</p></div><div class=\"text-right\"><p class=\"text-error font-bold\">-0.82%</p><p class=\"text-[10px] text-error/50\">89.15 CR</p></div></div></div></div><div class=\"md:col-span-4 glass-panel neon-border-top p-8\"><div class=\"flex justify-between items-start mb-4\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-primary\">SYS_STABILITY</span> <span class=\"material-symbols-outlined text-primary\">monitoring</span></div><div class=\"space-y-4\"><div><div class=\"flex justify-between text-[10px] font-bold mb-1 font-display tracking-widest\"><span>CPU_USAGE</span><span>42%</span></div><div class=\"flex\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			for i := 0; i < 10; i++ {
 				if i < 4 {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div class=\"progress-segment on-p\"></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div class=\"progress-segment on-p\"></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				} else {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"progress-segment\"></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div class=\"progress-segment\"></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></div><div><div class=\"flex justify-between text-[10px] font-bold mb-1 font-display tracking-widest\"><span>VRAM_ALLOC</span><span>88%</span></div><div class=\"flex\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></div><div><div class=\"flex justify-between text-[10px] font-bold mb-1 font-display tracking-widest\"><span>VRAM_ALLOC</span><span>88%</span></div><div class=\"flex\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			for i := 0; i < 10; i++ {
 				if i < 8 {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"progress-segment on-s\"></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div class=\"progress-segment on-s\"></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				} else {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div class=\"progress-segment\"></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"progress-segment\"></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div></div></div></div><div class=\"md:col-span-8 glass-panel neon-border-top p-8 relative overflow-hidden h-[300px]\"><div class=\"flex justify-between items-start mb-4 relative z-10\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-primary\">KERNEL_LOGS</span> <span class=\"text-[10px] font-mono text-base-content/40\">UPTIME: 324:12:05</span></div><div class=\"font-mono text-xs text-base-content/70 space-y-1 relative z-10 overflow-y-auto h-[200px] scrollbar-hide\"><p class=\"text-primary\">[OK] Initializing neural_link_v4&hellip;</p><p>[OK] Authenticating OPERATOR_01 signature&hellip;</p><p class=\"text-warning\">[WARN] Packet loss detected in sector 7-G</p><p>[INFO] Rerouting traffic via encrypted tunnel 0x82F</p><p class=\"text-secondary\">[OK] Synchronization complete. System stable.</p><p>&gt; sudo start_horizon_protocol</p><p class=\"text-primary\">Executing sequence [####........] 34%</p><p>[OK] Grid connection established</p><p>[OK] Loading visual buffer image_002</p><p>[INFO] Data stream live from terminal 09</p></div><div class=\"absolute bottom-0 right-0 w-1/2 h-full opacity-20 pointer-events-none\"><img class=\"w-full h-full object-cover\" src=\"https://lh3.googleusercontent.com/aida/ADBb0uivNVQEwC7broPoZJ8tRaLexZJGRLK-Do3mDc-nY4drOb0_OtawQvQTsWAa098DA1o4kpK0sOAGmqmNNuN7TiOLWEY-Z1zI_EmhPOaYo6GHirgFNro4h2DIOMZ35GzADRs29mfWH-k5-8amBfQOYrvDoYp59Op6GjUlGkrNInVFgt86fvVtOOusE04xjeuCKNt4vpik7G5uYsgom2iBe0hemoOgsh1KK66kb4yU3TiuPpGZeJNyPnRhNka-2c08e79FpnZsD19P\" alt=\"server racks with magenta and cyan LED glow\"></div></div><div class=\"md:col-span-4 glass-panel neon-border-top p-8\"><span class=\"font-display text-xs font-bold tracking-widest uppercase mb-4 block\">QUICK_OPS</span><div class=\"grid grid-cols-2 gap-4\"><button class=\"btn btn-primary h-auto flex-col gap-2 py-4 shadow-glow-p\"><span class=\"material-symbols-outlined text-2xl\">bolt</span> <span class=\"font-display text-xs font-bold tracking-wider\">BOOST</span></button> <button class=\"btn btn-outline btn-primary h-auto flex-col gap-2 py-4\"><span class=\"material-symbols-outlined text-2xl\">shield_moon</span> <span class=\"font-display text-xs font-bold tracking-wider\">STEALTH</span></button> <button class=\"btn btn-outline btn-primary h-auto flex-col gap-2 py-4\"><span class=\"material-symbols-outlined text-2xl\">radar</span> <span class=\"font-display text-xs font-bold tracking-wider\">SCAN</span></button> <button class=\"btn btn-outline btn-primary h-auto flex-col gap-2 py-4\"><span class=\"material-symbols-outlined text-2xl\">cloud_upload</span> <span class=\"font-display text-xs font-bold tracking-wider\">PUSH</span></button></div></div></div></main> <div class=\"fixed bottom-8 right-8 z-[60]\"><button class=\"btn btn-circle btn-primary w-16 h-16 bg-gradient-to-r from-primary to-accent border-none shadow-[0_0_20px_rgba(255,45,237,0.8)] hover:scale-110 group\"><span class=\"material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform\">add_circle</span></button></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</div></div></div></div><div class=\"md:col-span-8 glass-panel neon-border-top p-8 relative overflow-hidden h-[300px]\"><div class=\"flex justify-between items-start mb-4 relative z-10\"><span class=\"font-display text-xs font-bold tracking-widest uppercase text-primary\">KERNEL_LOGS</span> <span class=\"text-[10px] font-mono text-base-content/40\">UPTIME: 324:12:05</span></div><div class=\"font-mono text-xs text-base-content/70 space-y-1 relative z-10 overflow-y-auto h-[200px] scrollbar-hide\"><p class=\"text-primary\">[OK] Initializing neural_link_v4&hellip;</p><p>[OK] Authenticating OPERATOR_01 signature&hellip;</p><p class=\"text-warning\">[WARN] Packet loss detected in sector 7-G</p><p>[INFO] Rerouting traffic via encrypted tunnel 0x82F</p><p class=\"text-secondary\">[OK] Synchronization complete. System stable.</p><p>&gt; sudo start_horizon_protocol</p><p class=\"text-primary\">Executing sequence [####........] 34%</p><p>[OK] Grid connection established</p><p>[OK] Loading visual buffer image_002</p><p>[INFO] Data stream live from terminal 09</p></div><div class=\"absolute bottom-0 right-0 w-1/2 h-full opacity-20 pointer-events-none\"><img class=\"w-full h-full object-cover\" src=\"https://lh3.googleusercontent.com/aida/ADBb0uivNVQEwC7broPoZJ8tRaLexZJGRLK-Do3mDc-nY4drOb0_OtawQvQTsWAa098DA1o4kpK0sOAGmqmNNuN7TiOLWEY-Z1zI_EmhPOaYo6GHirgFNro4h2DIOMZ35GzADRs29mfWH-k5-8amBfQOYrvDoYp59Op6GjUlGkrNInVFgt86fvVtOOusE04xjeuCKNt4vpik7G5uYsgom2iBe0hemoOgsh1KK66kb4yU3TiuPpGZeJNyPnRhNka-2c08e79FpnZsD19P\" alt=\"server racks with magenta and cyan LED glow\"></div></div><div class=\"md:col-span-4 glass-panel neon-border-top p-8\"><span class=\"font-display text-xs font-bold tracking-widest uppercase mb-4 block\">QUICK_OPS</span><div class=\"grid grid-cols-2 gap-4\"><button class=\"btn btn-primary h-auto flex-col gap-2 py-4 shadow-glow-p\"><span class=\"material-symbols-outlined text-2xl\">bolt</span> <span class=\"font-display text-xs font-bold tracking-wider\">BOOST</span></button> <button class=\"btn btn-outline btn-primary h-auto flex-col gap-2 py-4\"><span class=\"material-symbols-outlined text-2xl\">shield_moon</span> <span class=\"font-display text-xs font-bold tracking-wider\">STEALTH</span></button> <button class=\"btn btn-outline btn-primary h-auto flex-col gap-2 py-4\"><span class=\"material-symbols-outlined text-2xl\">radar</span> <span class=\"font-display text-xs font-bold tracking-wider\">SCAN</span></button> <button class=\"btn btn-outline btn-primary h-auto flex-col gap-2 py-4\"><span class=\"material-symbols-outlined text-2xl\">cloud_upload</span> <span class=\"font-display text-xs font-bold tracking-wider\">PUSH</span></button></div></div></div></main> <div class=\"fixed bottom-8 right-8 z-[60]\"><button class=\"btn btn-circle btn-primary w-16 h-16 bg-gradient-to-r from-primary to-accent border-none shadow-[0_0_20px_rgba(255,45,237,0.8)] hover:scale-110 group\"><span class=\"material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform\">add_circle</span></button></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = weatherBootstrap().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
 		templ_7745c5c3_Err = layout("NEON_HORIZON · ace-of-base").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+// weatherBootstrap wires localStorage <-> the swap target. Server-side defaults
+// are read off the data-default-* attributes set on #weather-widget.
+func weatherBootstrap() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<script>\n\t\t(function () {\n\t\t\tvar widget = document.getElementById('weather-widget');\n\t\t\tif (!widget) return;\n\n\t\t\tfunction read(k, fb) { try { return localStorage.getItem(k) || fb; } catch (e) { return fb; } }\n\t\t\tfunction write(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }\n\n\t\t\tfunction applyUnitsUI(units) {\n\t\t\t\twidget.setAttribute('data-weather-units', units);\n\t\t\t\tvar btns = widget.querySelectorAll('#weather-units-toggle button[data-units]');\n\t\t\t\tbtns.forEach(function (b) {\n\t\t\t\t\tb.classList.toggle('active', b.getAttribute('data-units') === units);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\tfunction refresh() {\n\t\t\t\tvar lat   = read('neon-os-weather-lat',   widget.dataset.defaultLat);\n\t\t\t\tvar lon   = read('neon-os-weather-lon',   widget.dataset.defaultLon);\n\t\t\t\tvar label = read('neon-os-weather-label', widget.dataset.defaultLabel);\n\t\t\t\tvar qs = 'lat=' + encodeURIComponent(lat)\n\t\t\t\t       + '&lon=' + encodeURIComponent(lon)\n\t\t\t\t       + '&label=' + encodeURIComponent(label);\n\t\t\t\twindow.htmx.ajax('GET', '/views/weather?' + qs, { target: '#weather-content', swap: 'innerHTML' });\n\t\t\t}\n\n\t\t\twindow.setNeonWeatherLocation = function (lat, lon, label) {\n\t\t\t\twrite('neon-os-weather-lat',   String(lat));\n\t\t\t\twrite('neon-os-weather-lon',   String(lon));\n\t\t\t\twrite('neon-os-weather-label', label);\n\t\t\t\trefresh();\n\t\t\t};\n\n\t\t\twindow.setNeonWeatherUnits = function (units) {\n\t\t\t\tif (units !== 'metric' && units !== 'imperial') return;\n\t\t\t\twrite('neon-os-weather-units', units);\n\t\t\t\tapplyUnitsUI(units);\n\t\t\t};\n\n\t\t\tapplyUnitsUI(read('neon-os-weather-units', 'metric'));\n\t\t\trefresh();\n\t\t\tsetInterval(refresh, 30 * 60 * 1000);\n\t\t})();\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -114,25 +198,25 @@ func statusFragment(serverTime string) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<span class=\"status-dot ok\"></span> <span class=\"font-display tracking-widest\">SYSTEM NOMINAL</span> <span class=\"font-mono text-xs opacity-70\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<span class=\"status-dot ok\"></span> <span class=\"font-display tracking-widest\">SYSTEM NOMINAL</span> <span class=\"font-mono text-xs opacity-70\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(serverTime)
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(serverTime)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 250, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 302, Col: 56}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</span>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -175,17 +259,17 @@ func themePicker() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var9 == nil {
+			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"dropdown dropdown-end\"><div tabindex=\"0\" role=\"button\" class=\"cursor-pointer hover:scale-110 transition-transform\" title=\"Theme palette\" aria-label=\"Choose theme\"><span class=\"material-symbols-outlined\">palette</span></div><ul tabindex=\"0\" class=\"dropdown-content menu bg-base-200 border border-primary/40 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-box mt-3 w-64 z-[60] p-2 font-display tracking-widest\"><li class=\"menu-title text-primary text-[10px] font-bold uppercase pb-2\">THEME_PALETTE</li>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<div class=\"dropdown dropdown-end\"><div tabindex=\"0\" role=\"button\" class=\"cursor-pointer hover:scale-110 transition-transform\" title=\"Theme palette\" aria-label=\"Choose theme\"><span class=\"material-symbols-outlined\">palette</span></div><ul tabindex=\"0\" class=\"dropdown-content menu bg-base-200 border border-primary/40 shadow-[0_0_20px_rgba(0,0,0,0.6)] rounded-box mt-3 w-64 z-[60] p-2 font-display tracking-widest\"><li class=\"menu-title text-primary text-[10px] font-bold uppercase pb-2\">THEME_PALETTE</li>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, t := range themeOptions {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<li>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -193,16 +277,16 @@ func themePicker() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<button type=\"button\" class=\"flex items-center gap-3 py-2 text-xs font-bold uppercase text-base-content/70 hover:text-primary hover:bg-primary/10\" onclick=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<button type=\"button\" class=\"flex items-center gap-3 py-2 text-xs font-bold uppercase text-base-content/70 hover:text-primary hover:bg-primary/10\" onclick=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 templ.ComponentScript = pickTheme(t.ID)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var6.Call)
+			var templ_7745c5c3_Var10 templ.ComponentScript = pickTheme(t.ID)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var10.Call)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -210,25 +294,25 @@ func themePicker() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(t.Label)
+			var templ_7745c5c3_Var11 string
+			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(t.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 289, Col: 21}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 341, Col: 21}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</span></button></li>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</span></button></li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</ul></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</ul></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -252,77 +336,77 @@ func swatch(t themeOption) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var12 == nil {
+			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<span class=\"theme-swatch shrink-0\" style=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Surface)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 300, Col: 35}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" aria-hidden=\"true\"><span style=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Primary)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 303, Col: 41}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\"></span> <span style=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var11 string
-		templ_7745c5c3_Var11, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Secondary)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 304, Col: 43}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\"></span> <span style=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var12 string
-		templ_7745c5c3_Var12, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Accent)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 305, Col: 40}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\"></span> <span style=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<span class=\"theme-swatch shrink-0\" style=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Surface)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 306, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 352, Col: 35}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "\"></span></span>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\" aria-hidden=\"true\"><span style=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var14 string
+		templ_7745c5c3_Var14, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Primary)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 355, Col: 41}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\"></span> <span style=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var15 string
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Secondary)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 356, Col: 43}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "\"></span> <span style=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var16 string
+		templ_7745c5c3_Var16, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Accent)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 357, Col: 40}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\"></span> <span style=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var17 string
+		templ_7745c5c3_Var17, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background:" + t.Surface)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/dashboard.templ`, Line: 358, Col: 41}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\"></span></span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
