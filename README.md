@@ -12,34 +12,76 @@ borders, and high-density "terminal block" widgets.
 - **[HTMX](https://htmx.org)** `2.0.8` — vendored at `static/js/`
 - **OKLCH** color space throughout the seven themes
 
-## Quick start
+## Running the server
+
+### One-time setup
 
 ```bash
-# Run the server (defaults to :8081)
+cp .env.example .env
+# Edit .env to set TOMORROW_IO_API_KEY (free key at https://app.tomorrow.io/)
+```
+
+`.env` is auto-loaded in dev mode (TTY-detected, or `DEV_MODE=true`). Real
+environment variables always take precedence. See the
+[Configuration](#configuration) table for every supported var.
+
+### Path A — Docker compose (full app + postgres)
+
+The simplest first run. Brings up `app` on `:8081` and `db` (postgres 17)
+on `127.0.0.1:5432`. Compose synthesises `DATABASE_URL` for the app from
+the `POSTGRES_*` vars (see `docker-compose.yml`), so you don't set it
+yourself.
+
+```bash
+docker compose up --build       # build + start app and db
+docker compose logs -f app      # tail app logs
+docker compose down             # stop, keep the pgdata volume
+docker compose down -v          # stop and wipe the pgdata volume
+```
+
+Migrations are embedded in the binary (`//go:embed db/migrations/*.sql` in
+`main.go`) and run automatically on app boot.
+
+### Path B — Local Go against the compose db
+
+Fastest dev loop with a real database. Bring up just the postgres service,
+point the app at it, and run `go run .` natively for instant rebuilds.
+
+```bash
+docker compose up -d db
+export DATABASE_URL=postgres://aceofbase:aceofbase@127.0.0.1:5432/aceofbase?sslmode=disable
 go run .
-
-# Open the dashboard
-open http://localhost:8081
 ```
 
-### Run with Docker
+The DSN above matches the commented `DATABASE_URL` line in `.env.example`
+— uncomment it there if you'd rather load it from `.env`.
+
+Omit `DATABASE_URL` entirely (or leave it blank) to skip postgres
+altogether: the app boots, the weather widget works, and `/health` simply
+doesn't include the `database` check.
+
+### Path C — Production-style binary
+
+What CI/prod does — stamp the version, build a static binary, run it with
+real env vars.
 
 ```bash
-# Builds the app image and starts both `app` and `db` (postgres 17).
-docker compose up --build
-
-# Tear down (keep data):
-docker compose down
-
-# Tear down and wipe the postgres volume:
-docker compose down -v
+go run ./cmd/version                          # stamps internal/version/version.go from git
+go build -o bin/ace-of-base .
+DATABASE_URL=... TOMORROW_IO_API_KEY=... ./bin/ace-of-base
 ```
 
-Compose reads `.env` for `TOMORROW_IO_API_KEY` and any postgres overrides
-(see `.env.example`). The app is on `:8081`; postgres binds to
-`127.0.0.1:5432`.
+With `DEV_MODE` unset and stdout not a TTY, logs are JSON at `LOG_LEVEL`
+(default `info`). Verify the server is up:
 
-You'll need the `templ` CLI installed if you change any `.templ` files:
+```bash
+curl localhost:8081/health           # {"running":"ok",...}
+curl localhost:8081/api/v1/version   # short git sha matching `git rev-parse --short HEAD`
+```
+
+### Regenerating templates
+
+If you edit any `.templ` files you'll need the `templ` CLI:
 
 ```bash
 go install github.com/a-h/templ/cmd/templ@latest
@@ -116,9 +158,12 @@ a small inline script in `<head>` restores it before paint to avoid FOUC.
 
 ## Database
 
-PostgreSQL is provisioned by `docker compose` (`db` service, persistent
-`pgdata` volume). Schema lives in `db/migrations/` (sql-migrate format) and
-hand-written queries in `db/queries/` are compiled to type-safe Go via sqlc.
+Postgres runs as the `db` service in `docker compose` with a persistent
+`pgdata` volume — see [Path A](#path-a--docker-compose-full-app--postgres)
+or [Path B](#path-b--local-go-against-the-compose-db) above for how to
+bring it up. Schema lives in `db/migrations/` (sql-migrate format) and
+hand-written queries in `db/queries/` are compiled to type-safe Go via
+sqlc.
 
 Install the CLIs once:
 
