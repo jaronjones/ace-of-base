@@ -1,0 +1,39 @@
+
+package views
+
+templ layout(title string) {
+	<!DOCTYPE html>
+	<html lang="en" data-theme="synthgrid">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title }</title>
+			<script>
+				(function () {
+					try {
+						var t = localStorage.getItem('neon-os-theme');
+						if (t) document.documentElement.setAttribute('data-theme', t);
+					} catch (e) {}
+				})();
+			</script>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+			<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+			<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+			<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+			<link rel="stylesheet" href="/static/css/app.css"/>
+			<script src="/static/js/htmx-2.0.8.min.js"></script>
+		</head>
+		<body class="text-base-content">
+			<div class="scanlines"></div>
+			{ children... }
+			<script>
+				window.setNeonTheme = function (name) {
+					document.documentElement.setAttribute('data-theme', name);
+					try { localStorage.setItem('neon-os-theme', name); } catch (e) {}
+				};
+			</script>
+		</body>
+	</html>
+}

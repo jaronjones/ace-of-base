@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#1c0f19",
+                    "tertiary": "#00dbe9",
+                    "outline-variant": "#564050",
+                    "error-container": "#93000a",
+                    "tertiary-fixed": "#7df4ff",
+                    "surface-container": "#291b26",
+                    "background": "#1c0f19",
+                    "on-secondary-container": "#ddcdff",
+                    "on-tertiary-fixed": "#002022",
+                    "on-secondary-fixed": "#23005b",
+                    "secondary-fixed": "#e9ddff",
+                    "surface-bright": "#443440",
+                    "tertiary-fixed-dim": "#00dbe9",
+                    "on-background": "#f4dcea",
+                    "surface-container-highest": "#40303b",
+                    "surface-variant": "#40303b",
+                    "surface-container-high": "#342630",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#d1bcff",
+                    "inverse-on-surface": "#3b2c37",
+                    "surface-container-lowest": "#160a14",
+                    "tertiary-container": "#00a3ad",
+                    "surface-container-low": "#251721",
+                    "on-tertiary-fixed-variant": "#004f54",
+                    "on-tertiary-container": "#003235",
+                    "inverse-primary": "#ac00a0",
+                    "on-primary-container": "#55004f",
+                    "outline": "#a4899b",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "on-surface": "#f4dcea",
+                    "primary-container": "#ff2ded",
+                    "on-tertiary": "#00363a",
+                    "secondary": "#d1bcff",
+                    "on-surface-variant": "#dcbed2",
+                    "error": "#ffb4ab",
+                    "surface": "#1c0f19",
+                    "secondary-container": "#7000ff",
+                    "on-primary": "#5d0056",
+                    "inverse-surface": "#f4dcea",
+                    "on-error": "#690005",
+                    "surface-tint": "#ffacec",
+                    "primary-fixed": "#ffd7f2",
+                    "primary": "#ffacec",
+                    "on-primary-fixed": "#390035",
+                    "on-primary-fixed-variant": "#83007a",
+                    "on-secondary": "#3c0090",
+                    "primary-fixed-dim": "#ffacec"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "stack-md": "16px",
+                    "margin": "32px",
+                    "unit": "4px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Space Grotesk"],
+                    "label-sm": ["Space Grotesk"],
+                    "label-md": ["Space Grotesk"],
+                    "headline-xl": ["Space Grotesk"],
+                    "body-lg": ["Space Grotesk"],
+                    "headline-lg": ["Space Grotesk"],
+                    "body-md": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #050508;
+            background-image: 
+                linear-gradient(rgba(255, 45, 237, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 45, 237, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow-x: hidden;
+        }
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .glass-panel {
+            background: rgba(13, 13, 21, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 45, 237, 0.2);
+        }
+        .neon-border-top {
+            position: relative;
+        }
+        .neon-border-top::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff2ded, #7000ff);
+            box-shadow: 0 0 10px rgba(255, 45, 237, 0.8);
+        }
+        .progress-segment {
+            width: 8px;
+            height: 16px;
+            margin-right: 2px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<div class="scanlines"></div>
+<!-- TopNavBar (Shared Component JSON Mapping) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#0D0D15]/80 backdrop-blur-xl border-b-2 border-fuchsia-500/50 shadow-[0_0_15px_rgba(255,45,237,0.4)]">
+<div class="flex items-center gap-4">
+<span class="text-2xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500">SYNTH_OS v1.0</span>
+</div>
+<div class="hidden md:flex gap-8 items-center font-['Space_Grotesk'] tracking-widest uppercase text-xs">
+<span class="text-fuchsia-400 drop-shadow-[0_0_8px_rgba(255,45,237,0.8)] cursor-pointer">DASHBOARD</span>
+<span class="text-slate-500 hover:text-fuchsia-300 hover:drop-shadow-[0_0_5px_rgba(255,45,237,0.5)] transition-all cursor-pointer">SYSTEM</span>
+<span class="text-slate-500 hover:text-fuchsia-300 hover:drop-shadow-[0_0_5px_rgba(255,45,237,0.5)] transition-all cursor-pointer">NETWORK</span>
+<span class="text-slate-500 hover:text-fuchsia-300 hover:drop-shadow-[0_0_5px_rgba(255,45,237,0.5)] transition-all cursor-pointer">MODS</span>
+</div>
+<div class="flex gap-4 items-center text-fuchsia-500">
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">settings_input_component</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">memory</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform">network_check</span>
+<span class="material-symbols-outlined cursor-pointer hover:scale-110 transition-transform text-fuchsia-400">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar (Shared Component JSON Mapping) -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 flex flex-col pt-8 bg-[#050508] border-r-2 border-fuchsia-900/50 shadow-[5px_0_15px_rgba(0,0,0,0.5)] hidden md:flex">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center text-white border border-fuchsia-400/50">
+<span class="material-symbols-outlined">shield_person</span>
+</div>
+<div>
+<p class="font-headline-md text-label-sm text-fuchsia-500 leading-none">OPERATOR_01</p>
+<p class="text-[10px] text-slate-500 tracking-tighter">LEVEL_9_ADMIN</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1 font-['Space_Grotesk'] font-bold tracking-tighter">
+<a class="bg-gradient-to-r from-fuchsia-500/20 to-transparent border-l-4 border-fuchsia-500 text-fuchsia-500 px-6 py-4 flex items-center gap-4 transition duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span> DASHBOARD
+            </a>
+<a class="text-slate-400 px-6 py-4 flex items-center gap-4 opacity-70 hover:bg-fuchsia-500/10 hover:text-fuchsia-300 transition-colors transition duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">widgets</span> WIDGETS
+            </a>
+<a class="text-slate-400 px-6 py-4 flex items-center gap-4 opacity-70 hover:bg-fuchsia-500/10 hover:text-fuchsia-300 transition-colors transition duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">code</span> TERMINAL
+            </a>
+<a class="text-slate-400 px-6 py-4 flex items-center gap-4 opacity-70 hover:bg-fuchsia-500/10 hover:text-fuchsia-300 transition-colors transition duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">home_max</span> HUB
+            </a>
+<a class="text-slate-400 px-6 py-4 flex items-center gap-4 opacity-70 hover:bg-fuchsia-500/10 hover:text-fuchsia-300 transition-colors transition duration-200 ease-in-out hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span> CONFIG
+            </a>
+</nav>
+<div class="mt-auto border-t border-fuchsia-900/30 font-['Space_Grotesk'] font-bold tracking-tighter">
+<a class="text-slate-400 px-6 py-8 flex items-center gap-4 opacity-70 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined">power_settings_new</span> LOGOUT
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 mt-16 p-6 min-h-screen">
+<!-- Hero Section: Crossing Palm Trees and Setting Sun -->
+<section class="relative w-full h-[400px] overflow-hidden glass-panel neon-border-top mb-gutter group">
+<div class="absolute inset-0 z-0 overflow-hidden bg-[#050508]">
+<img class="w-full h-full object-cover opacity-60 mix-blend-screen group-hover:scale-105 transition-transform duration-[2s]" data-alt="A cinematic cyberpunk landscape featuring two giant, stylized silhouette palm trees crossing over a massive setting sun on the horizon. The sun is a glowing disk of vibrant magenta and electric purple gradients with digital scan-line artifacts. The sky is deep obsidian with a haze of neon pink light-pipe effects, reflecting onto a sleek, mirrored digital sea. The overall mood is retro-futuristic synthwave nostalgia with high tech-noir contrast." src="https://lh3.googleusercontent.com/aida/ADBb0uiAAa2aN4X4Yj7h_uPQfONePGyRrDffBqB--4KQrv5LLLkmQ514dGOBB7Hae5FRR464T8QQEabGzVYhja-IeDjZ7LZyeSwmOGXUn_EpnHoxTwqWD89F2iGqbP6pJrvXqvwObtRpI-2Ut8fAjHP-kmFpIRH_mtA2DDcYLNkh_h5-Y9HRCUfZ53c8inlQbSUlz8alihSB_1xFem6Slnj-of2mFfLeU8_Wsfxt5lkWg55WNS_NwajDxP1QB32ZonOM5Ym3uM8_7s2E"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0D0D15] to-transparent"></div>
+</div>
+<div class="relative z-10 h-full flex flex-col justify-end p-margin">
+<div class="space-y-unit">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-label-sm uppercase tracking-widest inline-block mb-stack-sm">SYSTEM STATUS: NOMINAL</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface uppercase tracking-tighter drop-shadow-[0_0_15px_rgba(255,45,237,0.8)]">NEON_HORIZON_OVERDRIVE</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl text-lg">Accessing deep-level kernel parameters. All sub-processes synchronized for global deployment. Welcome back, Operator.</p>
+</div>
+</div>
+</section>
+<!-- Widgets Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Weather Widget -->
+<div class="md:col-span-4 glass-panel neon-border-top p-stack-lg flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-stack-md">
+<span class="text-label-sm font-headline-md text-fuchsia-500 uppercase">LOCAL_CLIMATE</span>
+<span class="material-symbols-outlined text-fuchsia-500">cloud_done</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-headline-xl text-6xl text-white">24°C</span>
+<div class="text-on-surface-variant">
+<p class="text-label-md font-bold uppercase">Neo-Tokyo</p>
+<p class="text-xs">Humidity: 65% | Acid Rain: 12%</p>
+</div>
+</div>
+</div>
+<div class="mt-stack-lg pt-stack-md border-t border-outline-variant">
+<p class="text-[10px] text-fuchsia-400 font-bold tracking-widest uppercase">Forecast: Perennial Twilight</p>
+</div>
+</div>
+<!-- Stock Ticker Widget -->
+<div class="md:col-span-4 glass-panel neon-border-top p-stack-lg">
+<div class="flex justify-between items-start mb-stack-md">
+<span class="text-label-sm font-headline-md text-tertiary uppercase">MARKET_PULSE</span>
+<span class="material-symbols-outlined text-tertiary">query_stats</span>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center bg-black/40 p-2 border-l-2 border-tertiary">
+<div>
+<p class="text-white font-bold text-xs">SYNTH_CORP</p>
+<p class="text-[10px] text-slate-500">SCXP:NASDAQ</p>
+</div>
+<div class="text-right">
+<p class="text-tertiary font-bold">+12.4%</p>
+<p class="text-[10px] text-tertiary/50">432.80 CR</p>
+</div>
+</div>
+<div class="flex justify-between items-center bg-black/40 p-2 border-l-2 border-error">
+<div>
+<p class="text-white font-bold text-xs">AETHER_LINK</p>
+<p class="text-[10px] text-slate-500">AELK:GLOBAL</p>
+</div>
+<div class="text-right">
+<p class="text-error font-bold">-0.82%</p>
+<p class="text-[10px] text-error/50">89.15 CR</p>
+</div>
+</div>
+</div>
+</div>
+<!-- System Resources Widget -->
+<div class="md:col-span-4 glass-panel neon-border-top p-stack-lg">
+<div class="flex justify-between items-start mb-stack-md">
+<span class="text-label-sm font-headline-md text-fuchsia-500 uppercase">SYS_STABILITY</span>
+<span class="material-symbols-outlined text-fuchsia-500">monitoring</span>
+</div>
+<div class="space-y-stack-md">
+<div>
+<div class="flex justify-between text-[10px] font-bold mb-1">
+<span>CPU_USAGE</span>
+<span>42%</span>
+</div>
+<div class="flex">
+<div class="progress-segment bg-primary-container shadow-[0_0_8px_#ff2ded]"></div>
+<div class="progress-segment bg-primary-container shadow-[0_0_8px_#ff2ded]"></div>
+<div class="progress-segment bg-primary-container shadow-[0_0_8px_#ff2ded]"></div>
+<div class="progress-segment bg-primary-container shadow-[0_0_8px_#ff2ded]"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-bold mb-1">
+<span>VRAM_ALLOC</span>
+<span>88%</span>
+</div>
+<div class="flex">
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-tertiary shadow-[0_0_8px_#00dbe9]"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+<div class="progress-segment bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Terminal Feed Section -->
+<div class="md:col-span-8 glass-panel neon-border-top p-stack-lg relative overflow-hidden h-[300px]">
+<div class="flex justify-between items-start mb-stack-md relative z-10">
+<span class="text-label-sm font-headline-md text-fuchsia-500 uppercase">KERNEL_LOGS</span>
+<span class="text-[10px] font-mono text-slate-500">UPTIME: 324:12:05</span>
+</div>
+<div class="font-mono text-xs text-on-surface-variant space-y-1 relative z-10 overflow-y-auto h-[200px] scrollbar-hide">
+<p class="text-fuchsia-400">[OK] Initializing neural_link_v4...</p>
+<p>[OK] Authenticating OPERATOR_01 signature...</p>
+<p>[WARN] Packet loss detected in sector 7-G</p>
+<p>[INFO] Rerouting traffic via encrypted tunnel 0x82F</p>
+<p class="text-tertiary">[OK] Synchronization complete. System stable.</p>
+<p>&gt; sudo start_horizon_protocol</p>
+<p class="text-fuchsia-400">Executing sequence [####........] 34%</p>
+<p>[OK] Grid connection established</p>
+<p>[OK] Loading visual buffer image_002</p>
+<p>[INFO] Data stream live from terminal 09</p>
+</div>
+<!-- Abstract Background for Terminal -->
+<div class="absolute bottom-0 right-0 w-1/2 h-full opacity-20 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="Detailed close-up of high-tech server racks in a dark data center, illuminated by thousands of tiny blinking magenta and cyan LED lights. The scene is shrouded in a thin layer of artificial fog, catching the sharp light-pipe glow from the network cables. The aesthetic is deep obsidian tech-noir with a focus on intricate textures and a feeling of immense computing power and secret digital operations." src="https://lh3.googleusercontent.com/aida/ADBb0uivNVQEwC7broPoZJ8tRaLexZJGRLK-Do3mDc-nY4drOb0_OtawQvQTsWAa098DA1o4kpK0sOAGmqmNNuN7TiOLWEY-Z1zI_EmhPOaYo6GHirgFNro4h2DIOMZ35GzADRs29mfWH-k5-8amBfQOYrvDoYp59Op6GjUlGkrNInVFgt86fvVtOOusE04xjeuCKNt4vpik7G5uYsgom2iBe0hemoOgsh1KK66kb4yU3TiuPpGZeJNyPnRhNka-2c08e79FpnZsD19P"/>
+</div>
+</div>
+<!-- Action Center Widget -->
+<div class="md:col-span-4 glass-panel neon-border-top p-stack-lg">
+<span class="text-label-sm font-headline-md text-on-surface uppercase mb-stack-md block">QUICK_OPS</span>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center gap-2 p-4 bg-gradient-to-br from-fuchsia-600 to-purple-800 rounded-lg text-white font-bold text-xs hover:brightness-125 transition-all shadow-[0_0_10px_rgba(255,45,237,0.3)]">
+<span class="material-symbols-outlined text-2xl">bolt</span>
+                        BOOST
+                    </button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 border border-fuchsia-500/50 rounded-lg text-fuchsia-500 font-bold text-xs hover:bg-fuchsia-500/10 transition-all">
+<span class="material-symbols-outlined text-2xl">shield_moon</span>
+                        STEALTH
+                    </button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 border border-fuchsia-500/50 rounded-lg text-fuchsia-500 font-bold text-xs hover:bg-fuchsia-500/10 transition-all">
+<span class="material-symbols-outlined text-2xl">radar</span>
+                        SCAN
+                    </button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 border border-fuchsia-500/50 rounded-lg text-fuchsia-500 font-bold text-xs hover:bg-fuchsia-500/10 transition-all">
+<span class="material-symbols-outlined text-2xl">cloud_upload</span>
+                        PUSH
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button Contextual Check (Visible on Home) -->
+<div class="fixed bottom-8 right-8 z-[60]">
+<button class="w-16 h-16 rounded-full bg-gradient-to-r from-fuchsia-500 to-purple-600 shadow-[0_0_20px_rgba(255,45,237,0.8)] flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform">add_circle</span>
+</button>
+</div>
+</body></html>
